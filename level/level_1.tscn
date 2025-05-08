@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://b7h4c7fef4852"]
+[gd_scene load_steps=16 format=3 uid="uid://b7h4c7fef4852"]
 
-[ext_resource type="PackedScene" uid="uid://c4bt148pvx14t" path="res://Char/steve.tscn" id="1_7k2ea"]
 [ext_resource type="Script" path="res://script/level_1.gd" id="1_70kac"]
 [ext_resource type="PackedScene" uid="uid://bau6s1iavhk1c" path="res://level/coin.tscn" id="2_8wmva"]
 [ext_resource type="PackedScene" uid="uid://dgrsm8aw4n0ve" path="res://Char/ui.tscn" id="3_vcyld"]
 [ext_resource type="PackedScene" uid="uid://biva6c54s856g" path="res://level/block.tscn" id="4_nxrfe"]
+[ext_resource type="PackedScene" uid="uid://bqxndwtjaonfv" path="res://Char/enemy.tscn" id="5_o67d6"]
+[ext_resource type="PackedScene" uid="uid://ki7ku3gk7x3m" path="res://Char/knight.tscn" id="6_0hj4l"]
 [ext_resource type="PackedScene" uid="uid://dl8a8e584lhgh" path="res://level/platform.tscn" id="6_uvp8x"]
+[ext_resource type="PackedScene" uid="uid://bmhx38evkx6y4" path="res://level/landing_zone.tscn" id="8_aj7rs"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8ox7"]
 albedo_color = Color(0.537255, 0.694118, 0.564706, 1)
@@ -45,9 +47,6 @@ shape = SubResource("BoxShape3D_kdiir")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 8.30205, 0)
 
-[node name="Steve" parent="." instance=ExtResource("1_7k2ea")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34386, 1.59551, -0.0271927)
-
 [node name="Coin" parent="." instance=ExtResource("2_8wmva")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
 
@@ -70,5 +69,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4619, 0)
 
 [node name="Platform" parent="." instance=ExtResource("6_uvp8x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.74393, 1.13678, -7.17594)
+
+[node name="Knight" parent="." instance=ExtResource("6_0hj4l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.774203, 0)
+
+[node name="Enemy" parent="." instance=ExtResource("5_o67d6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.73037, 1.31884, 4.03013)
+
+[node name="Landing_zone" parent="." instance=ExtResource("8_aj7rs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.652425, 1.53973, -6.26065)
+
+[node name="Platform2" parent="." instance=ExtResource("6_uvp8x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73149, -1.63553, -7.19916)
 
 [connection signal="body_entered" from="void" to="." method="_on_void_body_entered"]

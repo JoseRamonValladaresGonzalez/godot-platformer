@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bmhx38evkx6y4"]
+
+[ext_resource type="Script" path="res://script/landing_zone.gd" id="1_e3brn"]
+[ext_resource type="PackedScene" uid="uid://bl6dh1bqlk3di" path="res://level/chest.tscn" id="2_lu144"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gdsrk"]
+height = 0.2
+
+[node name="Landing_zone" type="Area3D"]
+script = ExtResource("1_e3brn")
+chest_scene = ExtResource("2_lu144")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_gdsrk")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

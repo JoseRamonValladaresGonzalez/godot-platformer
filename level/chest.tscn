@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=3 uid="uid://bl6dh1bqlk3di"]
+
+[ext_resource type="Script" path="res://script/chest.gd" id="1_1h8jk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_061ds"]
+
+[sub_resource type="Animation" id="Animation_rnjbc"]
+resource_name = "rise"
+step = 1.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -2.00205, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3lnlp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -2.00205, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xxuqh"]
+_data = {
+"RESET": SubResource("Animation_3lnlp"),
+"rise": SubResource("Animation_rnjbc")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_2pt8b"]
+
+[node name="Chest" type="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.00205, 0)
+script = ExtResource("1_1h8jk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_061ds")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xxuqh")
+}
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_2pt8b")
