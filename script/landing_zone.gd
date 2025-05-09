@@ -21,8 +21,5 @@ func activate_effect():
 		# Añadir a la escena raíz y asignar posición global
 		get_tree().root.add_child(chest_instance)
 		chest_instance.global_position = global_position
-		# Resetear rotación/scale si es necesario
-		chest_instance.global_rotation = Vector3.ZERO
-		chest_instance.scale = Vector3.ONE
 		chest_instance.rise_from_ground()
 		chest_spawned = true

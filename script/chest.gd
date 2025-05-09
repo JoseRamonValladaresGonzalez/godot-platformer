@@ -1,10 +1,10 @@
 extends RigidBody3D
 
-
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-func rise_from_ground():
-	freeze = true  # Congelar física
-	animation_player.play("rise")
-	await animation_player.animation_finished
-	freeze = false  # Reactivar física
+func rise_from_ground() -> void:
+	# Asegurar que el AnimationPlayer está listo
+	if animation_player:
+		animation_player.play("rise")
+	else:
+		push_error("AnimationPlayer no encontrado en el cofre")

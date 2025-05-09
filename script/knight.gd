@@ -15,7 +15,12 @@ var double_jump: bool = true
 
 var overlapping_landing_zones: Array = []
 var was_in_air: bool = false
+var inventory: Array = []
 
+func add_to_inventory(item_id: String):
+	if !inventory.has(item_id):
+		inventory.append(item_id)
+		print("Inventario:", inventory)
 func enter_landing_zone(zone: Area3D):
 	overlapping_landing_zones.append(zone)
 
@@ -39,8 +44,22 @@ func _on_animation_finished(anim_name: String) -> void:
 		attack_hitbox.collision_layer = 0  # Desactivar el hitbox después de atacar
 		attack_hitbox.collision_mask = 0
 		print("Fin del ataque")
+	elif anim_name == "Jump_Start":
+		animation_player.play("Jump_Idle")
+	elif anim_name == "Jump_Land":
+		if velocity.x != 0 or velocity.z != 0:
+			animation_player.play("Walking_A")
+	else:
+		animation_player.play("Idle")
 
 func _physics_process(delta: float) -> void:
+	
+	if Input.is_action_pressed("interact"):
+		var doors = get_tree().get_nodes_in_group("door")
+		for door in doors:
+			if global_position.distance_to(door.global_position) < 2.0:
+				door.try_open()
+
 	# Suaviza el seguimiento de la cámara
 	camera_controller.position = camera_controller.position.lerp(position, 0.15)
 
@@ -64,9 +83,11 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor() or coyote_timer > 0.0:
 			velocity.y = JUMP_VELOCITY
 			coyote_timer = 0.0
+			animation_player.play("Jump_Start")
 		elif double_jump:
 			velocity.y = JUMP_VELOCITY
 			double_jump = false
+			animation_player.play("Jump_Start")
 
 	# Evitar movimiento mientras se está atacando
 	if is_attacking:
@@ -77,12 +98,12 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()  # Mantenemos el movimiento en el eje Y
 		return  # Salir del proceso para no ejecutar más código de movimiento
 
-	# Movimiento absoluto (independiente de la rotación del personaje)
+	# Movimiento relativo a la cámara
 	var input_direction := Vector3.ZERO
 	if Input.is_action_pressed("move_forward"):
-		input_direction.z -= 1
-	if Input.is_action_pressed("move_back"):
 		input_direction.z += 1
+	if Input.is_action_pressed("move_back"):
+		input_direction.z -= 1
 	if Input.is_action_pressed("move_left"):
 		input_direction.x -= 1
 	if Input.is_action_pressed("move_right"):
@@ -90,23 +111,35 @@ func _physics_process(delta: float) -> void:
 
 	input_direction = input_direction.normalized()
 
-	# Movimiento
+	var direction := Vector3.ZERO
 	if input_direction != Vector3.ZERO:
-		velocity.x = input_direction.x * SPEED
-		velocity.z = input_direction.z * SPEED
+		# Calcular dirección relativa a la cámara (solo horizontal)
+		var camera_forward = -camera_controller.global_transform.basis.z
+		camera_forward.y = 0
+		camera_forward = camera_forward.normalized()
+
+		var camera_right = camera_controller.global_transform.basis.x
+		camera_right.y = 0
+		camera_right = camera_right.normalized()
+
+		direction = (input_direction.x * camera_right) + (input_direction.z * camera_forward)
+		direction = direction.normalized()
+
+		# Aplicar velocidad
+		velocity.x = direction.x * SPEED
+		velocity.z = direction.z * SPEED
 
 		# Rotar personaje hacia dirección de movimiento
-		var angle := atan2(input_direction.x, input_direction.z)
+		var angle := atan2(direction.x, direction.z)
 		rotation.y = angle
 
-		# Reproducir animación de caminar
+		# Animación de caminar
 		if animation_player.current_animation != "Walking_A":
 			animation_player.play("Walking_A")
 	else:
 		velocity.x = 0
 		velocity.z = 0
-
-		# Reproducir animación de idle
+		# Animación de idle
 		if animation_player.current_animation != "Idle":
 			animation_player.play("Idle")
 
@@ -124,6 +157,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		if was_in_air:
 			just_landed = true
+			animation_player.play("Jump_Land")
 			was_in_air = false
 	
 	# Activar zonas al aterrizar

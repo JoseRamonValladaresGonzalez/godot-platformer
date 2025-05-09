@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b7h4c7fef4852"]
+[gd_scene load_steps=19 format=3 uid="uid://b7h4c7fef4852"]
 
 [ext_resource type="Script" path="res://script/level_1.gd" id="1_70kac"]
 [ext_resource type="PackedScene" uid="uid://bau6s1iavhk1c" path="res://level/coin.tscn" id="2_8wmva"]
@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://ki7ku3gk7x3m" path="res://Char/knight.tscn" id="6_0hj4l"]
 [ext_resource type="PackedScene" uid="uid://dl8a8e584lhgh" path="res://level/platform.tscn" id="6_uvp8x"]
 [ext_resource type="PackedScene" uid="uid://bmhx38evkx6y4" path="res://level/landing_zone.tscn" id="8_aj7rs"]
+[ext_resource type="PackedScene" uid="uid://d05q6m5hhhdv2" path="res://Char/Barbarian.tscn" id="9_188st"]
+[ext_resource type="PackedScene" uid="uid://gj1ymluv7s30" path="res://level/Door.tscn" id="10_x8go5"]
+[ext_resource type="PackedScene" uid="uid://u3eug3xw5u0s" path="res://level/key.tscn" id="11_hw0o8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l8ox7"]
 albedo_color = Color(0.537255, 0.694118, 0.564706, 1)
@@ -71,7 +74,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4619, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.74393, 1.13678, -7.17594)
 
 [node name="Knight" parent="." instance=ExtResource("6_0hj4l")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.774203, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.3441, 0.774203, 0)
 
 [node name="Enemy" parent="." instance=ExtResource("5_o67d6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.73037, 1.31884, 4.03013)
@@ -81,5 +84,25 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.652425, 1.53973, -6.26065)
 
 [node name="Platform2" parent="." instance=ExtResource("6_uvp8x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73149, -1.63553, -7.19916)
+
+[node name="Barbarian" parent="." instance=ExtResource("9_188st")]
+transform = Transform3D(0.992415, 0, 0, 0, 0.992415, 0, 0, 0, 0.992415, 2.85965, 0.628691, 0)
+
+[node name="Floor2" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.3501, 0, 0)
+metadata/_edit_group_ = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor2"]
+mesh = SubResource("BoxMesh_h6oja")
+skeleton = NodePath("../../Floor2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor2"]
+shape = SubResource("BoxShape3D_kdiir")
+
+[node name="Door" parent="." instance=ExtResource("10_x8go5")]
+transform = Transform3D(0.996474, 0, 0.083904, 0, 1, 0, -0.083904, 0, 0.996474, -15.0197, 0.911442, -4.2406)
+
+[node name="Key" parent="." instance=ExtResource("11_hw0o8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.6222, 1.6369, 3.78904)
 
 [connection signal="body_entered" from="void" to="." method="_on_void_body_entered"]

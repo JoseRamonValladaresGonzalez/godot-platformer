@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcq6pr5srkt3p"]
+
+[ext_resource type="MeshLibrary" uid="uid://d0p5j2dgi2s6r" path="res://mesh/tilemap.tres" id="1_h7w2f"]
+[ext_resource type="PackedScene" uid="uid://ki7ku3gk7x3m" path="res://Char/knight.tscn" id="2_6u15u"]
+
+[node name="Map1" type="Node3D"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_h7w2f")
+data = {
+"cells": PackedInt32Array(65535, 0, 6, 65535, 65535, 8, 0, 65535, 8, 1, 0, 6, 0, 0, 6, 1, 65535, 8, 0, 65534, 8, 0, 65533, 8, 0, 65532, 8, 0, 65531, 8, 0, 65529, 8, 1, 65528, 8, 1, 65529, 8, 1, 65531, 8, 1, 65532, 8, 1, 65533, 8, 1, 65534, 8, 65535, 65529, 8, 65535, 65531, 8, 65535, 65532, 8, 65535, 65533, 8, 65535, 65534, 8, 0, 65528, 8, 65535, 65528, 8, 65535, 65530, 8, 0, 65530, 8, 1, 65530, 8, 65537, 65527, 32, 65536, 65527, 32, 131071, 65527, 32, 65537, 65528, 524320, 65536, 65528, 524320, 131071, 65528, 524320, 65537, 65525, 27, 65536, 65525, 27, 131071, 65525, 27, 131071, 65524, 27, 65536, 65524, 27, 65537, 65524, 27, 131071, 65522, 27, 65536, 65520, 27, 65537, 65518, 27, 131071, 65517, 27)
+}
+metadata/_editor_floor_ = Vector3(0, 1, 0)
+
+[node name="Knight" parent="." instance=ExtResource("2_6u15u")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 1.26518, 3.19873, -0.825337)
